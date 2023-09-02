@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, ClientEncryption } = require('mongodb');
+const { MongoClient, ClientEncryption, ObjectId } = require('mongodb');
 
 // CONF MONGO
 const url = 'mongodb://localhost:27017';
@@ -38,14 +38,17 @@ async function main() {
   });
 
   // READ ONE
-  app.get('/users/:id', (req, res) => {
-    const id = req.params.id;
-    const user = users[id - 1];
+  app.get('/users/:id', async(req, res) => {
+    const { id } = req.params;
+    const REGEX = /^[0-9a-fA-F]{24}$/;
 
-    if (!user) {
-      res.status(404).send({ message: 'User not found' });
+    if (!REGEX.test(id)) {
+      res.status(422).send({ message: 'Invalid id' });
+      return;
     };
 
+    const user = await collection.findOne({ _id: new ObjectId(id)});
+  
     res.status(200).send(user);
   });
 
