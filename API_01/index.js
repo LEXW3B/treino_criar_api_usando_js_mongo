@@ -27,8 +27,14 @@ async function main() {
   })
 
   // READ ALL
-  app.get('/users', (_req, res) => {
-    res.status(201).send(users);
+  app.get('/users', async (_req, res) => {
+    const users = await collection.find().toArray();
+
+    if (!users) {
+      res.status(404).send({ message: 'Users not found' });
+    };
+
+    res.status(200).send(users);
   });
 
   // READ ONE
