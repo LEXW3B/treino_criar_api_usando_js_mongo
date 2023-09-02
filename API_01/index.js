@@ -46,6 +46,14 @@ app.put('/users/:id', (req, res) => {
   res.status(200).send({  message: 'User updated successfully' });
 });
 
+// DELETE
+app.delete('/users/:id', (req, res) => {
+  const { id } = req.params;
+  delete users[id - 1];
+
+  res.status(200).send({ message: 'User deleted successfully'});
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando na porta: ${port}`)
 })
