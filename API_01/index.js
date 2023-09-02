@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json());
 const port = 3000
 
 
@@ -26,6 +27,14 @@ app.get('/users/:id', (req, res) => {
   };
 
   res.status(200).send(user);
+});
+
+// CREATE
+app.post('/users', (req, res) => {
+  const { name } = req.body;
+  users.push(name);
+
+  res.status(201).send({ message: 'User created successfully' });
 });
 
 app.listen(port, () => {
