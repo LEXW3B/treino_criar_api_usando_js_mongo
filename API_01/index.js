@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, ClientEncryption, ObjectId } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // CONF MONGO
 const url = 'mongodb://localhost:27017';
@@ -7,9 +7,9 @@ const nameDB = 'API_01';
 const client = new MongoClient(url);
 
 async function main() {
-  console.info('Conectando ao banco de dados...');
+  console.info('Connecting to database...');
   await client.connect();
-  console.info('Conectado com sucesso!');
+  console.info('Connected successfully!');
 
   const bd = client.db(nameDB);
   const collection = bd.collection('users');
@@ -17,10 +17,6 @@ async function main() {
   const app = express()
   app.use(express.json());
   const port = 3000
-
-  const users = [
-    "João Jatobá", "José Joaquim", "Patricia Pimentel", "Maria Madalena"
-  ];
 
   app.get('/', (_req, res) => {
     res.send('Hello World!')
@@ -96,15 +92,22 @@ async function main() {
   });
 
   // DELETE
-  app.delete('/users/:id', (req, res) => {
-    const { id } = req.params;
-    delete users[id - 1];
+  app.delete('/users/:id', async (req, res) => {
+    const { id } =req.params;
+    const REGEX = /^[0-9a-fA-F]{24}$/;
+
+    if (!REGEX.test(id)) {
+      res.status(422).send({ message: 'Invalid id' });
+      return;
+    };
+
+    await collection.deleteOne({ _id: new ObjectId(id) });
 
     res.status(200).send({ message: 'User deleted successfully'});
   });
 
   app.listen(port, () => {
-    console.log(`Servidor rodando na porta: ${port}`)
+    console.log(`Server running on port: ${port}`)
   });
 }
 main();
