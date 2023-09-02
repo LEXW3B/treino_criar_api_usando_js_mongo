@@ -37,6 +37,15 @@ app.post('/users', (req, res) => {
   res.status(201).send({ message: 'User created successfully' });
 });
 
+// UPDATE
+app.put('/users/:id', (req, res) => {
+  const { id } =req.params;
+  const {  name } = req.body;
+  users[id - 1] = name;
+
+  res.status(200).send({  message: 'User updated successfully' });
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando na porta: ${port}`)
 })
