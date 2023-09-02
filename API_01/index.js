@@ -72,12 +72,27 @@ async function main() {
   });
 
   // UPDATE
-  app.put('/users/:id', (req, res) => {
+  app.put('/users/:id', async (req, res) => {
     const { id } =req.params;
     const {  name } = req.body;
-    users[id - 1] = name;
+    const REGEX = /^[0-9a-fA-F]{24}$/;
 
-    res.status(200).send({  message: 'User updated successfully' });
+    if (!REGEX.test(id)) {
+      res.status(422).send({ message: 'Invalid id' });
+      return;
+    };
+    
+    if (!name) {
+      res.status(422).send({ message: 'Name is required' });
+      return;
+    };
+
+    await collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { name } }
+    );
+
+    res.status(200).send({ message: 'User updated successfully'});
   });
 
   // DELETE
