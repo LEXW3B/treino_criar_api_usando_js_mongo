@@ -53,11 +53,22 @@ async function main() {
   });
 
   // CREATE
-  app.post('/users', (req, res) => {
+  app.post('/users', async (req, res) => {
     const { name } = req.body;
-    users.push(name);
 
-    res.status(201).send({ message: 'User created successfully' });
+    if (!name) {
+      res.status(422).send({  message: 'Name is required' });
+      return;
+    };
+
+    try {
+      await collection.insertOne({ name });
+      res.status(201).send({ message: 'User created successfully' });
+      
+    } catch (error) {
+      console.info(error);
+      res.status(500).send({ message: 'Error creating user' });
+    };
   });
 
   // UPDATE
