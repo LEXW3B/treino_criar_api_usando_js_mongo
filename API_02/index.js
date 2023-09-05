@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const animes = require('./animes.json');
 
@@ -76,17 +76,26 @@ async function main() {
   });
 
   // update
-  app.put('/api/anime/:id', (req, res) => {
-    const id = req.params.id;
-    const anime = req.body;
+  app.put('/api/anime/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const anime = req.body;
 
-    if (!anime || !anime.name || !anime.lançamento || !anime.status) {
-      res.status(400).send({ message: 'anime invalid'});
-      return;
-    };
+      const updateAnime = await collection.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: { anime } },
+      );
 
-    animes[id - 1] = anime;
-    res.status(200).send(anime);
+      if (!updateAnime) {
+        res.status(404).send({ message: 'anime not found'});
+      };
+
+      res.status(200).send({ message: 'anime updated'});
+
+    } catch (error) {
+      console.info(error);
+      res.status(500).send({ message: 'internal server error'})
+    }
   });
 
   // delete
