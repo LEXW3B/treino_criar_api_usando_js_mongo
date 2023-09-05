@@ -100,15 +100,20 @@ async function main() {
 
   // delete
   app.delete('/api/anime/:id', (req, res) => {
-    const id = req.params.id;
-    const anime = animes[id - 1];
+    const { id } = req.params;
+    const REGEX = /^[0-9a-fA-F]{24}$/;
 
-    if (!anime) {
+    if (!REGEX.test(id)) {
       res.status(404).send({ message: 'anime not found'});
-    };
+    }
 
-    delete animes[id - 1];
-    res.status(200).send({ message: 'anime deleted'});
+    try {
+      collection.findOneAndDelete({ _id: new ObjectId(id) });
+      res.status(200).send({ message: 'anime deleted'});
+    } catch (error) {
+      console.info(error);
+      res.status(500).send({ message: 'internal server error'})
+    }
   });
 
   app.listen(port, () => {
