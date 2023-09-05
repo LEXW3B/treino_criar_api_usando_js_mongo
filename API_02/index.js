@@ -54,6 +54,19 @@ app.put('/api/anime/:id', (req, res) => {
   res.status(200).send(anime);
 });
 
+// delete
+app.delete('/api/anime/:id', (req, res) => {
+  const id = req.params.id;
+  const anime = animes[id - 1];
+
+  if (!anime) {
+    res.status(404).send({ message: 'anime not found'});
+  };
+
+  delete animes[id - 1];
+  res.status(200).send({ message: 'anime deleted'});
+});
+
 app.listen(port, () => {
   console.log(`server running on: http://localhost:${port}`);
 });
