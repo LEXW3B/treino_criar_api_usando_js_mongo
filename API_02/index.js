@@ -43,13 +43,15 @@ async function main() {
   });
 
   // read one
-  app.get('/api/anime/:id', (req, res) => {
-    const id = req.params.id;
-    const anime = animes[id - 1];
+  app.get('/api/anime/:id', async (req, res) => {
+    const { id } = req.params;
+    const REGEX = /^[0-9a-fA-F]{24}$/;
 
-    if (!anime) {
+    if (!REGEX.test(id)) {
       res.status(404).send({ message: 'anime not found'});
     };
+
+    const anime = await collection.findOne({ _id: new ObjectId(id) });
 
     res.status(200).send(anime);
   });
