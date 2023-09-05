@@ -7,6 +7,11 @@ app.get('/api', (_req, res) => {
   res.send('funcionando!');
 });
 
+// read all
+app.get('/api/animes', (_req, res) => {
+  res.send(animes);
+});
+
 app.listen(port, () => {
   console.log(`server running on: http://localhost:${port}`);
 });
