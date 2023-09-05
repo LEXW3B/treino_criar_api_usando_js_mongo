@@ -1,72 +1,96 @@
 const express = require('express')
+const { MongoClient } = require('mongodb');
+
 const animes = require('./animes.json');
-const app = express();
 
-app.use(express.json());
+// conf. mongo
+const url = 'mongodb://localhost:27017';
+const dbName = 'db_animes';
+const client = new MongoClient(url);
 
-const port = 3000;
+async function main() {
+  console.info('Connecting to the database...');
+  await client.connect((err) => {
+    if (err) {
+      console.info('Error connecting to database');
+      return;
+    };
+  });
+  console.info('Database successfully connected');
 
-app.get('/api', (_req, res) => {
-  res.send('funcionando!');
-});
 
-// read all
-app.get('/api/animes', (_req, res) => {
-  res.send(animes);
-});
+  const db = client.db(dbName);
+  const collection = db.collection('animes');
 
-// read one
-app.get('/api/anime/:id', (req, res) => {
-  const id = req.params.id;
-  const anime = animes[id - 1];
 
-  if (!anime) {
-    res.status(404).send({ message: 'anime not found'});
-  };
+  const app = express();
+  app.use(express.json());
+  const port = 3000;
 
-  res.status(200).send(anime);
-});
+  app.get('/api', (_req, res) => {
+    res.send('funcionando!');
+  });
 
-// create
-app.post('/api/anime', (req, res) => {
-  const anime = req.body;
+  // read all
+  app.get('/api/animes', (_req, res) => {
+    res.send(animes);
+  });
 
-  if (!anime || !anime.name || !anime.lançamento || !anime.status) {
-    res.status(400).send({ message: 'anime invalid'});
-    return;
-  };
+  // read one
+  app.get('/api/anime/:id', (req, res) => {
+    const id = req.params.id;
+    const anime = animes[id - 1];
 
-  animes.push(anime);
-  res.status(201).send(anime);
-});
+    if (!anime) {
+      res.status(404).send({ message: 'anime not found'});
+    };
 
-// update
-app.put('/api/anime/:id', (req, res) => {
-  const id = req.params.id;
-  const anime = req.body;
+    res.status(200).send(anime);
+  });
 
-  if (!anime || !anime.name || !anime.lançamento || !anime.status) {
-    res.status(400).send({ message: 'anime invalid'});
-    return;
-  };
+  // create
+  app.post('/api/anime', (req, res) => {
+    const anime = req.body;
 
-  animes[id - 1] = anime;
-  res.status(200).send(anime);
-});
+    if (!anime || !anime.name || !anime.lançamento || !anime.status) {
+      res.status(400).send({ message: 'anime invalid'});
+      return;
+    };
 
-// delete
-app.delete('/api/anime/:id', (req, res) => {
-  const id = req.params.id;
-  const anime = animes[id - 1];
+    animes.push(anime);
+    res.status(201).send(anime);
+  });
 
-  if (!anime) {
-    res.status(404).send({ message: 'anime not found'});
-  };
+  // update
+  app.put('/api/anime/:id', (req, res) => {
+    const id = req.params.id;
+    const anime = req.body;
 
-  delete animes[id - 1];
-  res.status(200).send({ message: 'anime deleted'});
-});
+    if (!anime || !anime.name || !anime.lançamento || !anime.status) {
+      res.status(400).send({ message: 'anime invalid'});
+      return;
+    };
 
-app.listen(port, () => {
-  console.log(`server running on: http://localhost:${port}`);
-});
+    animes[id - 1] = anime;
+    res.status(200).send(anime);
+  });
+
+  // delete
+  app.delete('/api/anime/:id', (req, res) => {
+    const id = req.params.id;
+    const anime = animes[id - 1];
+
+    if (!anime) {
+      res.status(404).send({ message: 'anime not found'});
+    };
+
+    delete animes[id - 1];
+    res.status(200).send({ message: 'anime deleted'});
+  });
+
+  app.listen(port, () => {
+    console.log(`server running on: http://localhost:${port}`);
+  });
+};
+
+main();
