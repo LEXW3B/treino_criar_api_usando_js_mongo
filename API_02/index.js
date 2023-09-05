@@ -32,8 +32,14 @@ async function main() {
   });
 
   // read all
-  app.get('/api/animes', (_req, res) => {
-    res.send(animes);
+  app.get('/api/animes', async (_req, res) => {
+    const animes = await collection.find({}).toArray();
+
+    if (!animes) {
+      res.status(404).send({ message: 'animes not found'});
+    };
+
+    res.status(200).send(animes)
   });
 
   // read one
