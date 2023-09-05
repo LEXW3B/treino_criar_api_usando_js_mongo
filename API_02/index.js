@@ -57,16 +57,22 @@ async function main() {
   });
 
   // create
-  app.post('/api/anime', (req, res) => {
+  app.post('/api/anime', async (req, res) => {
     const anime = req.body;
+    const { name, lançamento, status } = req.body;
 
-    if (!anime || !anime.name || !anime.lançamento || !anime.status) {
+    if (!name || !lançamento || !status) {
       res.status(400).send({ message: 'anime invalid'});
       return;
     };
 
-    animes.push(anime);
-    res.status(201).send(anime);
+    try {
+      await collection.insertOne({ anime });
+      res.status(201).send({ message: 'anime created'})
+    } catch (error) {
+      console.info(error);
+      res.status(500).send({ message: 'internal server error'})
+    }
   });
 
   // update
