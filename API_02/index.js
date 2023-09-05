@@ -40,6 +40,20 @@ app.post('/api/anime', (req, res) => {
   res.status(201).send(anime);
 });
 
+// update
+app.put('/api/anime/:id', (req, res) => {
+  const id = req.params.id;
+  const anime = req.body;
+
+  if (!anime || !anime.name || !anime.lançamento || !anime.status) {
+    res.status(400).send({ message: 'anime invalid'});
+    return;
+  };
+
+  animes[id - 1] = anime;
+  res.status(200).send(anime);
+});
+
 app.listen(port, () => {
   console.log(`server running on: http://localhost:${port}`);
 });
