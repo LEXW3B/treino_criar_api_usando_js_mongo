@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Shingeki no Kyojin",
+    "lançamento": "2013",
+    "status": "finalizado"
+  },
+  {
+    "id": 2,
+    "name": "Hunter x Hunter",
+    "lançamento": "1998",
+    "status": "em andamento"
+  },
+  {
+    "id": 3,
+    "name": "Yu Yu Hakusho",
+    "lançamento": "1992",
+    "status": "finalizado"
+  },
+  {
+    "id": 4,
+    "name": "Tsuki ga Michibiku Isekai Douchuu",
+    "lançamento": "2021",
+    "status": "em andamento"
+  }
+]
