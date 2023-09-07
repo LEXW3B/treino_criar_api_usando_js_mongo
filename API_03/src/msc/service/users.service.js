@@ -8,6 +8,15 @@ async function getAll() {
   return users;
 };
 
+async function getById(id) {
+  const user = await userModel.getById(id);
+
+  if (!user) return null;
+
+  return user;
+};
+
 module.exports = {
   getAll,
+  getById,
 };
