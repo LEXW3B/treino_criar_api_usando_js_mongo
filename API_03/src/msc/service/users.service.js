@@ -24,8 +24,17 @@ async function create(name) {
   return { id, name};
 };
 
+async function update(id, name) {
+  const user = await userModel.update(id, name);
+
+  if (!user) return null;
+
+  return user;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

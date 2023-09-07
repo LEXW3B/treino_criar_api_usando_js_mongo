@@ -45,8 +45,29 @@ async function create(req, res) {
   res.status(201).json({ message: 'User created' });
 };
 
+async function update(req, res) {
+  const { id } = req.params;
+  const { name } = req.body;
+  const REGEX = /^[0-9a-fA-F]{24}$/;
+
+  if (!REGEX.test(id)) {
+    res.status(404).send({ message: 'User not found' });
+  };
+
+  if (!name) {
+    res.status(400).json({ message: 'Invalid user' });
+  
+    return;
+  }
+
+  await userService.update(id, name);
+
+  res.status(200).json({ message: 'User updated' });
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

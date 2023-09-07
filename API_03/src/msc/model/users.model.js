@@ -36,8 +36,25 @@ async function create(name) {
   return { id: insertId, name };
 };
 
+async function update(id, name) {
+  const db = await connect();
+  const users = db.collection('users');
+
+  if (!users) return null;
+
+  const { modifiedCount} = await users.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { name }}
+  );
+
+  if (modifiedCount === 0) return null;
+
+  return { id, name };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
