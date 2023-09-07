@@ -31,7 +31,22 @@ async function getById(req, res) {
   res.status(200).json(user);
 };
 
+async function create(req, res) {
+  const { name } = req.body;
+
+  if (!name) {
+    res.status(400).json({ message: 'Invalid user' });
+  
+    return;
+  }
+
+  await userService.create(name);
+
+  res.status(201).json({ message: 'User created' });
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };

@@ -16,7 +16,16 @@ async function getById(id) {
   return user;
 };
 
+async function create(name) {
+  const { id } = await userModel.create(name);
+
+  if (!id) return null;
+
+  return { id, name};
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };

@@ -25,7 +25,19 @@ async function getById(id) {
   return user;
 };
 
+async function create(name) {
+  const db = await connect();
+  const users = db.collection('users');
+
+  if (!users) return null;
+
+  const { insertId } = await users.insertOne({ name });
+
+  return { id: insertId, name };
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };
