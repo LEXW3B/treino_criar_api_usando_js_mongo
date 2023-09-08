@@ -65,9 +65,23 @@ async function update(req, res) {
   res.status(200).json({ message: 'User updated' });
 };
 
+async function remove(req, res) {
+  const { id } = req.params;
+  const REGEX = /^[0-9a-fA-F]{24}$/;
+
+  if (!REGEX.test(id)) {
+    res.status(404).json({ message: 'User not found' });
+  };
+
+  await userService.remove(id);
+
+  res.status(200).json({ message: 'User deleted' });
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };
