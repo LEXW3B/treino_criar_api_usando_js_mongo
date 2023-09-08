@@ -1,6 +1,4 @@
 const userModel = require('../model/users.model');
-const { ObjectId } = require('mongodb');
-
 
 async function getAll() {
   const users = await userModel.getAll();
@@ -34,12 +32,14 @@ async function update(id, name) {
   return user;
 };
 
-async function remove(id) {
-  const user = await userModel.remove(id);
+async function removed(id) {
+  const user = await userModel.getById(id);
 
   if (!user) return null;
 
-  return user;
+  await userModel.removed(id);
+
+  return;
 };
 
 module.exports = {
@@ -47,5 +47,5 @@ module.exports = {
   getById,
   create,
   update,
-  remove,
+  removed,
 };
