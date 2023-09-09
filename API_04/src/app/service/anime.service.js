@@ -24,8 +24,17 @@ async function create(name) {
   return { id: anime.insertedId, name };
 };
 
+async function update(id, name) {
+  const anime = await animeModel.update(id, name);
+
+  if (!anime) return null;
+
+  return { id, name };
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
+  update,
 };

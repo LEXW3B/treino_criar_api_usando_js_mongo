@@ -43,8 +43,27 @@ async function create(req, res) {
   res.status(201).json({ message: 'Anime created successfully' });
 };
 
+async function update(req, res) {
+  const { name } = req.body;
+
+  if (!name) {
+    res.status(400).json({ message: 'Invalid data' });
+
+    return;
+  }
+
+  const anime = await animeService.update(req.params.id, name);
+
+  if (!anime) {
+    res.status(400).json({ message: 'Invalid data' });
+  }
+
+  res.status(200).json(anime);
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
+  update,
 };

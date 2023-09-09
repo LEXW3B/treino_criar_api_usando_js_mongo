@@ -47,8 +47,24 @@ async function create(name) {
   return { id: insertedId, name };
 };
 
+async function update(id, name) {
+  const anime = await getCollection();
+
+  if (!anime) return null;
+
+  const { modificationCount } = await anime.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { name } },
+  );
+
+  if (modificationCount === 0) return null;
+
+  return { id, name};
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
+  update,
 };
