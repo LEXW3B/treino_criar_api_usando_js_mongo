@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connect = require('../../../database/connect.db');
 
 // singleton
@@ -28,6 +29,15 @@ async function getAll() {
   return await animes.find({}).toArray();
 };
 
+async function getOne(id) {
+  const anime = await getCollection();
+
+  if (!anime) return null;
+
+  return await anime.findOne({ _id: new ObjectId(id) });
+};
+
 module.exports = {
   getAll,
+  getOne,
 };

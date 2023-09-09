@@ -13,6 +13,19 @@ async function getAll(req, res) {
   res.status(200).json(animes);
 };
 
+async function getOne(req, res) {
+  const anime = await animeService.getOne(req.params.id);
+
+  if (!anime) {
+    res.status(404).json({ message: 'Anime not found' });
+
+    return;
+  }
+
+  res.status(200).json(anime);
+};
+
 module.exports = {
   getAll,
+  getOne,
 };

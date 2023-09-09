@@ -7,6 +7,7 @@ router.get('/', (_req, res) => {
 });
 
 router.get('/animes', animesController.getAll);
+router.get('/anime/:id', animesController.getOne);
 
 
 module.exports = router;
