@@ -32,9 +32,20 @@ async function update(id, name) {
   return { id, name };
 };
 
+async function remove(id) {
+  const anime = await animeModel.getOne(id);
+
+  if (!anime) return null;
+
+  await animeModel.remove(id);
+
+  return;
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
   update,
+  remove,
 };

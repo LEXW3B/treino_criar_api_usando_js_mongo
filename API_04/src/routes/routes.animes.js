@@ -10,6 +10,7 @@ router.get('/animes', animesController.getAll);
 router.get('/anime/:id', animesController.getOne);
 router.post('/anime', animesController.create);
 router.put('/anime/:id', animesController.update);
+router.delete('/anime/:id', animesController.remove);
 
 
 module.exports = router;

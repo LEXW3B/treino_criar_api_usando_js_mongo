@@ -62,9 +62,22 @@ async function update(id, name) {
   return { id, name};
 };
 
+async function remove(id) {
+  const anime = await getCollection();
+
+  if (!anime) return null;
+
+  const { deleteCount } = await anime.deleteOne({ _id: new ObjectId(id) });
+
+  if (deleteCount === 0) return null;
+
+  return;
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
   update,
+  remove,
 };

@@ -61,9 +61,16 @@ async function update(req, res) {
   res.status(200).json(anime);
 };
 
+async function remove(req, res) {
+  await animeService.remove(req.params.id);
+
+  res.status(200).json({ message: 'Anime deleted successfully' });
+};
+
 module.exports = {
   getAll,
   getOne,
   create,
   update,
+  remove,
 };
