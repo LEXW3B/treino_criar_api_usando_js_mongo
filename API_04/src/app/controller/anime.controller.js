@@ -25,7 +25,26 @@ async function getOne(req, res) {
   res.status(200).json(anime);
 };
 
+async function create(req, res) {
+  const { name } = req.body;
+
+  if (!name) {
+    res.status(400).json({ message: 'Invalid data' });
+
+    return;
+  }
+
+  const anime = await animeService.create(name);
+
+  if (!anime) {
+    res.status(400).json({ message: 'Invalid data' });
+  }
+
+  res.status(201).json({ message: 'Anime created successfully' });
+};
+
 module.exports = {
   getAll,
   getOne,
+  create,
 };

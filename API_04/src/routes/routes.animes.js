@@ -8,6 +8,7 @@ router.get('/', (_req, res) => {
 
 router.get('/animes', animesController.getAll);
 router.get('/anime/:id', animesController.getOne);
+router.post('/anime', animesController.create);
 
 
 module.exports = router;

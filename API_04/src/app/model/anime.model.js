@@ -37,7 +37,18 @@ async function getOne(id) {
   return await anime.findOne({ _id: new ObjectId(id) });
 };
 
+async function create(name) {
+  const anime = await getCollection();
+
+  if (!anime) return null;
+
+  const { insertedId } = await anime.insertOne({ name });
+
+  return { id: insertedId, name };
+};
+
 module.exports = {
   getAll,
   getOne,
+  create,
 };

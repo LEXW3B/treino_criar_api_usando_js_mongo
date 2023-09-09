@@ -14,9 +14,18 @@ async function getOne(id) {
   if (!anime) return null;
 
   return anime;
-}
+};
+
+async function create(name) {
+  const anime = await animeModel.create(name);
+
+  if (!anime) return null;
+
+  return { id: anime.insertedId, name };
+};
 
 module.exports = {
   getAll,
   getOne,
+  create,
 };
