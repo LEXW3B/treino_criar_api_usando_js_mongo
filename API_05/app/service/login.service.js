@@ -8,6 +8,17 @@ async function getAll() {
   return login;
 }
 
+async function getOne({ email }) {
+  try {
+    const user = await loginModel.getOne({ email });
+    return user;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.info('Erro ao encontrar usuário:', error);
+    throw error; // Lançar o erro para que seja tratado no controlador
+  }
+}
+
 async function create(email, password) {
   const login = await loginModel.create(email, password);
 
@@ -18,5 +29,6 @@ async function create(email, password) {
 
 module.exports = {
   getAll,
+  getOne,
   create,
 };

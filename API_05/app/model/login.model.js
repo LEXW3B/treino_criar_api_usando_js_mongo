@@ -29,10 +29,24 @@ async function getAll() {
   return login.find({}).toArray();
 }
 
+async function getOne(email) {
+  const login = await getCollection();
+
+  if (!login) return null;
+
+  return login.findOne(email);
+}
+
 async function create(email, password) {
   const login = await getCollection();
 
   if (!login) return null;
+
+  const existingUser = await getOne({ email });
+
+  if (existingUser) {
+    throw new Error('Email já está em uso model');
+  }
 
   const { insertedId } = await login.insertOne({ email, password });
 
@@ -41,5 +55,6 @@ async function create(email, password) {
 
 module.exports = {
   getAll,
+  getOne,
   create,
 };

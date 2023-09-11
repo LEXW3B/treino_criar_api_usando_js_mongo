@@ -15,15 +15,22 @@ async function getAll(_req, res) {
 async function create(req, res) {
   const { email, password } = req.body;
 
-  const login = await loginService.create(email, password);
+  try {
+    const existEmail = await loginService.getOne({ email });
 
-  if (!login) {
-    res.status(400).json({ message: 'Bad Request' });
+    if (existEmail) {
+      return res.status(400).json({ message: 'Email já está em uso controller' });
+    }
 
-    return;
+    // Correção: Passe os argumentos separadamente
+    await loginService.create(email, password);
+
+    return res.status(201).json({ message: 'Created' });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.info('Erro ao criar usuário:', error);
+    return res.status(500).json({ message: 'Erro ao criar usuário controller' });
   }
-
-  res.status(201).json({ message: 'Created' });
 }
 
 module.exports = {
