@@ -1,14 +1,13 @@
 const express = require('express');
 
+const app = express();
+
+app.use(express.json());
 require('dotenv').config();
 
-const app = express();
-app.use(express.json());
 const port = process.env.PORT;
 
-app.get('/', (_req, res) => {
-  res.send("i'm me, and you who is?");
-});
+app.use('/', require('./routers/route.login'));
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
