@@ -29,6 +29,17 @@ async function getAll() {
   return login.find({}).toArray();
 }
 
+async function create(email, password) {
+  const login = await getCollection();
+
+  if (!login) return null;
+
+  const { insertedId } = await login.insertOne({ email, password });
+
+  return { id: insertedId, email, password };
+}
+
 module.exports = {
   getAll,
+  create,
 };

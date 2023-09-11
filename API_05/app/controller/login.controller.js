@@ -12,6 +12,21 @@ async function getAll(_req, res) {
   res.status(200).json(login);
 }
 
+async function create(req, res) {
+  const { email, password } = req.body;
+
+  const login = await loginService.create(email, password);
+
+  if (!login) {
+    res.status(400).json({ message: 'Bad Request' });
+
+    return;
+  }
+
+  res.status(201).json({ message: 'Created' });
+}
+
 module.exports = {
   getAll,
+  create,
 };
