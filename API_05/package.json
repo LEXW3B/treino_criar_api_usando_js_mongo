@@ -1,7 +1,7 @@
 {
   "name": "api_05",
   "version": "1.0.0",
-  "description": "",
+  "description": "api para criar um login com senha, email e salvar no banco de dados",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alexandre ESL",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
