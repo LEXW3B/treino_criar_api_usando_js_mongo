@@ -6,9 +6,7 @@ require('dotenv').config();
 
 const port = process.env.PORT;
 
-app.get('/', (_req, res) => {
-  res.send("I'm me, and you who are is?");
-});
+app.get('/', require('./routers/router.login'));
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
