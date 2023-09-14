@@ -44,8 +44,24 @@ async function create(req, res) {
   }
 }
 
+async function remove(req, res) {
+  const { id } = req.params;
+
+  try {
+    const login = await loginService.remove(id);
+
+    if (!login) return res.status(404).json({ message: 'Login not found' });
+
+    return res.status(200).json({ message: 'Login deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal error' });
+  }
+}
+
 module.exports = {
   getAll,
   getOne,
   create,
+  remove,
 };

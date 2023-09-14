@@ -62,8 +62,22 @@ async function create(email, password) {
   }
 }
 
+async function remove(id) {
+  try {
+    const login = await getLoginCollection();
+
+    if (!login) return null;
+
+    return login.deleteOne({ _id: new ObjectId(id) });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 module.exports = {
   getAll,
   getOne,
   create,
+  remove,
 };

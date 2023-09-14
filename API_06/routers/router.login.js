@@ -11,5 +11,6 @@ router.get('/', (_req, res) => {
 router.get('/login', loginController.getAll);
 router.get('/login/:id', loginController.getOne);
 router.post('/login', loginController.create);
+router.delete('/login/:id', loginController.remove);
 
 module.exports = router;

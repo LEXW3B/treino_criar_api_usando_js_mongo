@@ -40,8 +40,22 @@ async function create(email, password) {
   }
 }
 
+async function remove(id) {
+  try {
+    const login = await loginModel.remove(id);
+
+    if (!login) return null;
+
+    return login;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 module.exports = {
   getAll,
   getOne,
   create,
+  remove,
 };
