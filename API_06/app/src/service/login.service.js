@@ -14,6 +14,34 @@ async function getAll() {
   }
 }
 
+async function getOne(id) {
+  try {
+    const login = await loginModel.getOne(id);
+
+    if (!login) return null;
+
+    return login;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+async function create(email, password) {
+  try {
+    const login = await loginModel.create(email, password);
+
+    if (!login) return null;
+
+    return login;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 module.exports = {
   getAll,
+  getOne,
+  create,
 };
