@@ -1,14 +1,16 @@
 {
   "name": "api_07",
   "version": "1.0.0",
-  "description": "",
+  "description": "Um CRUD de usuários com Node.js, Express, MongoDB, Docker, ESLint, Joi e Jwt",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node .",
+    "dev": "nodemon server.js",
+    "docker": "docker-compose up -d"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alexandre ESL",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
