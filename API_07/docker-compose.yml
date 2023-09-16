@@ -1,0 +1,22 @@
+version: '3'
+services:
+  login_db:
+    image: mongo:4.2
+    container_name: login_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27018:27017"
+    networks:
+      - mongodb_network
+
+networks:
+  mongodb_network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
